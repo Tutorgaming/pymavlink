@@ -1,0 +1,146 @@
+<?xml version="1.0"?>
+<!--
+Custom MAVLINK Definitions
+- MAVLink V2.0 Implementation
+Obodroid Corporation Co.,Ltd
+Maintainer : Theppasith N. (Theppasith.n@hiveground.com)
+-->
+<mavlink>
+  <include>common.xml</include>
+  <dialect>2</dialect>
+    <!-- Extension for existing command -->
+    <enums>
+        <!-- Mavlink Command Messages extension from common.xml -->
+        <!-- uint16_t -> 0-65535 -->
+        <!-- THIS IS COMMAND DEFINITION which can either be in MISSION_ and COMMAND_  -->
+        <enum name="MAV_CMD">
+            <!-- START_MISSION -->
+            <entry value="40000" name="MAV_CMD_SR1_MISSION_ITEM_GOTOWAIT">
+                <description>[SR1][MISSION_ITEM] Go to certain X,Y Position on specified the Map ID (and wait if specified)</description>
+                <param index="1">(float) Hold time</param>
+                <param index="2">(float) Empty</param>
+                <param index="3">(float) Empty</param>
+                <param index="4">(float) Yaw angle at the goal</param>
+                <param index="5">(float) X Position of the local map</param>
+                <param index="6">(float) Y Position of the local map</param>
+                <param index="7">(float) Local map ID</param>
+            </entry>
+            <entry value="40001" name="MAV_CMD_SR1_MISSION_ITEM_SPIN">
+                <description>[SR1][MISSION_ITEM] Spin at current position</description>
+                <param index="1">(float) Spin Round (integer round)</param>
+                <param index="2">(float) Spin Speed (rad/s)</param>
+                <param index="3">(float) Spin Direction (1 for CW , -1 for CCW)</param>
+                <param index="4">(float) Empty</param>
+                <param index="5">(float) Empty</param>
+                <param index="6">(float) Empty</param>
+                <param index="7">(float) Empty</param>
+            </entry>
+            <entry value="40002" name="MAV_CMD_SR1_MISSION_ITEM_CUSTOM">
+                <description>[SR1][MISSION_ITEM] Mission item for SR1 Robot</description>
+                <param index="1">(float) param1</param>
+                <param index="2">(float) param2</param>
+                <param index="3">(float) param3</param>
+                <param index="4">(float) param4</param>
+                <param index="5">(float) param5</param>
+                <param index="6">(float) param6</param>
+                <param index="7">(float) param7</param>
+            </entry>
+            <entry value="40010" name="MAV_CMD_SR1_SET_LIGHT">
+                <description>[SR1][MISSION_ITEM] Set Light on Robot</description>
+                <param index="1">(float) param1</param>
+                <param index="2">(float) param2</param>
+                <param index="3">(float) param3</param>
+                <param index="4">(float) param4</param>
+                <param index="5">(float) param5</param>
+                <param index="6">(float) param6</param>
+                <param index="7">(float) param7</param>
+            </entry>
+        </enum>
+        <!-- Robot state definitions -->
+        <enum name="SR1_ROBOT_STATE">
+            <description>Robot State Enumerations</description>
+            <entry value="0" name="IDLE">
+                <description>[SR1][ROBOT STATE] Global robot state</description>
+            </entry>
+            <entry value="1" name="NAVIGATING">
+                <description>[SR1][ROBOT STATE] Navigating to a certain point</description>
+            </entry>
+            <entry value="2" name="EMERGENCY_STOP">
+                <description>[SR1][ROBOT STATE] State when Emergency stop button is activated</description>
+            </entry>
+            <entry value="10" name="ROBOT_FATAL_ERROR">
+                <description>[SR1][ROBOT STATE] Global robot state</description>
+            </entry>
+        </enum>
+
+        <!-- Map definitions -->
+        <enum name="LOCAL_MAP_ID">
+            <description>Mapping from Local map to Enumerations</description>
+            <entry value="0" name="NONE">
+                <description>[SR1][MAP_ID] Global robot state</description>
+            </entry>
+            <entry value="1" name="FRONT_GATE">
+                <description>[SR1][MAP_ID] Navigating to a certain point</description>
+            </entry>
+            <entry value="2" name="BACKYARD">
+                <description>[SR1][MAP_ID] State when Emergency stop button is activated</description>
+            </entry>
+            <entry value="3" name="MAIN_RAMP">
+                <description>[SR1][MAP_ID] Main long RAMP</description>
+            </entry>
+            <entry value="4" name="MAP_1A">
+                <description>[SR1][MAP_ID] Floor 1A</description>
+            </entry>
+            <entry value="5" name="MAP_1RA">
+                <description>[SR1][MAP_ID] Ramp between 1A and 1B</description>
+            </entry>
+            <entry value="6" name="MAP_1B">
+                <description>[SR1][MAP_ID] Floor 1B</description>
+            </entry>
+            <entry value="7" name="MAP_1RB">
+                <description>[SR1][MAP_ID] Ramp between 1B and 2A Main,2A Wing</description>
+            </entry>
+            <entry value="8" name="MAP_2AM">
+                <description>[SR1][MAP_ID] Floor 2A Main</description>
+            </entry>
+            <entry value="9" name="MAP_2AW">
+                <description>[SR1][MAP_ID] Floor 2A Wing</description>
+            </entry>
+        </enum>
+    </enums>
+
+    <!-- Definitions for New Message type MAVLINK2 -->
+    <messages>
+        <message id="200" name="SR1_EVENT_REPORT">
+        <description>Event report for SR1 Robot</description>
+            <field type="float" name="from_sensor">Sensor ID which event is triggered</field>
+            <field type="float" name="value_1">Value 1</field>
+            <field type="float" name="value_2">Value 2</field>
+            <field type="float" name="value_3">Value 3</field>
+            <field type="float" name="value_4">Value 4</field>
+            <field type="float" name="value_5">Value 5</field>
+        </message>
+
+        <message id="201" name="SR1_TELEPHONE_COMMAND">
+        <description>Telephone Command</description>
+            <field type="float" name="call_activated">Call Activated ? (1 = Calling 0 = Hang up) </field>
+            <field type="float" name="value_1">Value 1</field>
+            <field type="float" name="value_2">Value 2</field>
+            <field type="float" name="value_3">Value 3</field>
+            <field type="float" name="value_4">Value 4</field>
+            <field type="float" name="value_5">Value 5</field>
+        </message>
+
+        <message id="202" name="SR1_LOCAL_POSITION_INT">
+        <description>Local Position of robot / Related to the map</description>
+            <field type="uint32_t" name="time_boot_ms">Timestamp (milliseconds since system boot)</field>
+            <field type="int32_t" name="x">X (meters) of the robot relate to a map * 1E7</field>
+            <field type="int32_t" name="y">Y (meters) of the robot relate to a map * 1E7</field>
+            <field type="uint16_t" name="hdg">Vehicle heading (yaw angle) in degrees * 100, 0.0..359.99 degrees. If unknown, set to: UINT16_MAX</field>
+            <field type="int32_t" name="relative_alt">Altitude above ground in meters, expressed as * 1000 (millimeters)</field>
+            <field type="char[16]" name="map_name">Current map name</field>
+            <field type="int16_t" name="vx">X Axis Current Velocity in m/s * 100</field>
+            <field type="int16_t" name="vy">Y Axis Current Velocity in m/s * 100</field>
+        </message>
+    </messages>
+</mavlink>
